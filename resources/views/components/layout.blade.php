@@ -16,7 +16,8 @@
     <meta name="description"
         content="Simple Image Placeholder service that does what it says... Provide placeholder images.">
     {{-- Add the meta keywords --}}
-    <meta name="keywords" content="{{ config('app.name') }}, Image, Placeholder, Service, Lorem, Ipsum, Picsum">
+    <meta name="keywords"
+        content="{{ config('app.name') }}, Random, Image, Placeholder, Generator, Service, Lorem, Ipsum, Picsum">
     {{-- Add the meta author --}}
     <meta name="author" content="{{ config('app.name') }}">
     {{-- Add the meta robots --}}
