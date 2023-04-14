@@ -8,6 +8,22 @@
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    {{-- Add the favicon --}}
+    <link rel="icon" href="{{ asset('logo-sm.png') }}" type="image/x-icon" />
+    {{-- Add the title --}}
+    <title>{{ config('app.name') }}</title>
+    {{-- Add the meta description --}}
+    <meta name="description"
+        content="Simple Image Placeholder service that does what it says... Provide placeholder images.">
+    {{-- Add the meta keywords --}}
+    <meta name="keywords" content="{{ config('app.name') }}, Image, Placeholder, Service, Lorem, Ipsum, Picsum">
+    {{-- Add the meta author --}}
+    <meta name="author" content="{{ config('app.name') }}">
+    {{-- Add the meta robots --}}
+    <meta name="robots" content="index, follow">
+    {{-- Add the meta googlebot --}}
+    <meta name="googlebot" content="index, follow">
+    {{-- Add the meta google --}}
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
 
     @stack('head')
