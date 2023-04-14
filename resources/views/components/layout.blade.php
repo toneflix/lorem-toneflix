@@ -29,7 +29,7 @@
     {{-- Add the Google tag if we are online --}}
     @if (config('app.env') == 'production')
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-4D1EEY6VGZ"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FHM3VBSHSV"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
 
@@ -38,7 +38,7 @@
             }
             gtag('js', new Date());
 
-            gtag('config', 'G-4D1EEY6VGZ');
+            gtag('config', 'G-FHM3VBSHSV');
         </script>
     @endif
 
