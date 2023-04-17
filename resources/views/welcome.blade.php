@@ -1,12 +1,11 @@
 <x-layout>
-
     <!--Left Col-->
-    <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
+    <div class="flex flex-col justify-center w-full overflow-y-hidden xl:w-2/5 lg:items-start">
         <h1
-            class="my-4 text-3xl md:text-5xl text-purple-800 font-bold leading-tight text-center md:text-left slide-in-bottom-h1">
+            class="my-4 text-3xl font-bold leading-tight text-center text-purple-800 md:text-5xl md:text-left slide-in-bottom-h1">
             Simple Image Placeholder service that does what it says... Provide placeholder images.
         </h1>
-        <p class="leading-normal text-base md:text-2xl mb-8 text-center md:text-left slide-in-bottom-subtitle">
+        <p class="mb-8 text-base leading-normal text-center md:text-2xl md:text-left slide-in-bottom-subtitle">
             Lorem Toneflix was created to help designers prototype and create mockups using real images. It's free to
             use for none commercial projects.
         </p>
@@ -14,74 +13,33 @@
     </div>
 
     <!--Right Col-->
-    <div class="w-full xl:w-3/5 py-6 overflow-y-hidden">
-        <img class="mx-auto lg:mr-0 slide-in-bottom w-2/3" src="{{ url('images?w=300&h=300') }}">
+    <div class="w-full py-6 overflow-y-hidden xl:w-3/5">
+        <img class="w-2/3 mx-auto lg:mr-0 slide-in-bottom" src="{{ url('images?w=300&h=300') }}">
     </div>
-    <div class="w-full xl:w-3/5 py-1 overflow-y-hidden">
-        <div class="mx-auto lg:mr-0 slide-in-bottom w-2/3 bg-slate-400 p-2 text-center">
+    <div class="w-full py-1 overflow-y-hidden xl:w-3/5">
+        <div class="w-2/3 p-2 mx-auto text-center lg:mr-0 slide-in-bottom bg-slate-400">
             {{ url('images') }}</div>
     </div>
 
-    <section class="gradient w-full mx-auto text-center pt-6 mt-4 pb-12 px-3">
+    <section class="w-full px-3 pt-6 pb-12 mx-auto mt-4 text-center gradient">
         <h3 class="my-4 text-3xl font-extrabold text-white">
             And it is easier than you thought it was.
         </h3>
         <div class="w-full mb-4">
-            <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
+            <div class="w-1/6 h-1 py-0 mx-auto my-0 bg-white rounded-t opacity-25"></div>
         </div>
         <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" space-between="30"
             slides-per-view="3">
-            <swiper-slide>
-                <img class="mx-auto lg:mr-0 slide-in-bottom" src="{{ url('images/avatar?w=300&h=300') }}">
-                <div class="absolute">
-                    <div class="text-3xl font-extrabold text-white">Avatars</div>
-                    <div class="bg-slate-400 text-white p-2 text-center">
-                        {{ '/images/avatar?w=300&h=300' }}</div>
-                </div>
-            </swiper-slide>
-            <swiper-slide>
-                <img class="mx-auto lg:mr-0 slide-in-bottom" src="{{ url('images/album?w=300&h=300') }}">
-                <div class="absolute">
-                    <div class="text-3xl font-extrabold text-white">Album Covers</div>
-                    <div class="bg-slate-400 text-white p-2 text-center">
-                        {{ '/images/album?w=300&h=300' }}</div>
-                </div>
-            </swiper-slide>
-            <swiper-slide>
-                <img class="mx-auto lg:mr-0 slide-in-bottom" src="{{ url('images?w=300&h=300') }}">
-                <div class="absolute">
-                    <div class="text-3xl font-extrabold text-white">Anything Random</div>
-                    <div class="bg-slate-400 text-white p-2 text-center">
-                        {{ '/images?w=300&h=300' }}</div>
-                </div>
-            </swiper-slide>
-            <swiper-slide>
-                <img class="mx-auto lg:mr-0 slide-in-bottom" src="{{ url('images/image/00020?text=true') }}">
-                <div class="absolute">
-                    <div class="text-3xl font-extrabold text-white">Specific Image</div>
-                    <div class="bg-slate-400 text-white p-2 text-center">
-                        {{ '/images/image/00020' }}<br /> [You can easily get image id by passing text=true as a
-                        parameter]
+            @foreach ($slides as $slide)
+                <swiper-slide>
+                    <img class="mx-auto lg:mr-0 slide-in-bottom" src="{{ $slide['url'] }}">
+                    <div class="absolute">
+                        <div class="text-3xl font-extrabold text-white">{{ $slide['label'] }}</div>
+                        <div class="p-2 text-center text-white bg-slate-400">
+                            {{ $slide['code'] }}</div>
                     </div>
-                </div>
-            </swiper-slide>
-            <swiper-slide>
-                <img class="mx-auto lg:mr-0 slide-in-bottom"
-                    src="{{ url('images?w=300&h=300&greyscale=true&random=4' . ['&pixelate=10', ''][rand(0, 1)]) }}">
-                <div class="absolute">
-                    <div class="text-3xl font-extrabold text-white">Greyscale</div>
-                    <div class="bg-slate-400 text-white p-2 text-center">
-                        {{ '/images?w=300&h=300&greyscale=true' }}</div>
-                </div>
-            </swiper-slide>
-            <swiper-slide>
-                <img class="mx-auto lg:mr-0 slide-in-bottom" src="{{ url('images?w=300&h=300&pixelate=10') }}">
-                <div class="absolute">
-                    <div class="text-3xl font-extrabold text-white">Pixelate</div>
-                    <div class="bg-slate-400 text-white p-2 text-center">
-                        {{ '/images?w=300&h=300&pixelate=5' }}</div>
-                </div>
-            </swiper-slide>
+                </swiper-slide>
+            @endforeach
         </swiper-container>
     </section>
 

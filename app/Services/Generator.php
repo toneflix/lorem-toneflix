@@ -86,7 +86,7 @@ class Generator
                 if ($request->has('w') || $request->has('h')) {
                     $width = $request->get('w');
                     $height = $request->get('h');
-                    $image->resize($width, $height);
+                    $image->fit($width, $height);
                 }
 
                 if ($request->has('greyscale')) {
