@@ -3,13 +3,25 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Typography\FontFactory;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
+use Symfony\Component\Finder\SplFileInfo;
 
 class Generator
 {
-    protected $file;
+    /**
+     * A single file to return
+     *
+     * @var SplFileInfo
+     */
+    protected SplFileInfo $file;
 
-    protected $files;
+    /**
+     * List of files to return
+     *
+     * @var array<int,SplFileInfo>
+     */
+    protected array $files;
 
     public function all()
     {
@@ -34,16 +46,17 @@ class Generator
         });
 
         $this->file = $collection->random();
+
         return $this;
     }
 
     public static function generate($dir = null, $get_link = true)
     {
         try {
-            $file = (new self)->build($dir)->file;
+            $file = (new self())->build($dir)->file;
 
             if ($get_link === true) {
-                return asset($dir.'/'.$file->getFileName());
+                return asset($dir . '/' . $file->getFileName());
             }
 
             return $file;
@@ -65,61 +78,93 @@ class Generator
         return self::generate($dir, false);
     }
 
-    public function render()
+    public function render(?string $format)
     {
         $request = request();
         try {
             $file = $this->file;
 
-            if (!$request->hasAny(['h', 'w', 'greyscale', 'pixelate', 'cache', 'text'])) {
-                return response()->file($file->getPathname());
+            if (!$request->hasAny(['h', 'w', 'greyscale', 'pixelate', 'invert', 'blur', 'sharpen', 'filters', 'text'])) {
+                return response()->file($file->getPathname(), [
+                    'Cross-Origin-Resource-Policy' => 'cross-origin',
+                    'Access-Control-Allow-Origin' => '*'
+                ]);
             } else {
-                if ($request->has('cache')) {
-                    $image = \Image::cache(function($image) use ($file) {
-                        $image->make($file->getPathname());
-                    }, 10, true);
-                } else {
-                    $image = \Image::make($file->getPathname());
+                // Prepare the image
+                $image = (new Media())->buildResponse($file->getPathname());
+
+                // Apply a gaussian blur effect on the current image
+                if ($request->has('blur')) {
+                    $image->blur(is_numeric($request->blur) ? $request->blur : 5);
                 }
 
-
-                if ($request->has('w') || $request->has('h')) {
-                    $width = $request->get('w');
-                    $height = $request->get('h');
-                    $image->fit($width, $height);
-                }
-
-                if ($request->has('greyscale')) {
+                // Turn image into a greyscale version
+                if ($request->boolean('greyscale')) {
                     $image->greyscale();
                 }
 
+                // Invert all colors of the image
+                if ($request->boolean('invert')) {
+                    $image->invert();
+                }
+
+                // Sharpen the image
+                if ($request->has('sharpen')) {
+                    $image->sharpen(is_numeric($request->sharpen) ? $request->sharpen : 10);
+                }
+
+                // Resize the image
+                if ($request->has('w') || $request->has('h')) {
+                    $width = (int)$request->get('w');
+                    $height = (int)$request->get('h');
+                    $image->resize([$width ?: $height, $height ?: $width]);
+                }
+
+                // Pixelate the image
                 if ($request->has('pixelate')) {
                     $image->pixelate(is_numeric($request->pixelate) ? $request->pixelate : 10);
                 }
 
-                if ($request->has('text')) {
-                    $image->text(
-                        str($request->text)->contains(['1',1,true,'true'])?str($file->getFilename())->before('.'):$request->text,
-                        30,
-                        30,
-                        function($font) {
-                        $font->file(public_path('SecularOne.ttf'));
-                        $font->size(50);
-                        $font->color('#fff');
-                        $font->align('middle');
-                        $font->valign('center');
+                // Load all filters from the filters query param
+                if ($request->has('filters')) {
+                    $filters = str($request->filters)->remove(' ')->explode(',')->filter(function ($f) {
+                        return in_array(str($f)->before(':')->toString(), [
+                            'blur',
+                            'invert',
+                            'sharpen',
+                            'pixelate',
+                            'greyscale',
+                        ]);
                     });
+
+                    foreach ($filters->lazy() as $filter) {
+                        $param = str($filter)->afterLast(':')->toInteger();
+                        $image = $image->{str($filter)->before(':')->toString()}($param);
+                    }
                 }
 
-                return $image->response();
-            }
+                if ($request->has('text')) {
+                    $image->text(
+                        $request->boolean('text') ? str($file->getFilename())->before('.') : $request->text,
+                        30,
+                        30,
+                        function (FontFactory $font) {
+                            $font->file(public_path('SecularOne.ttf'));
+                            $font->size(70);
+                            $font->color('#fff');
+                            $font->valign('center');
+                        }
+                    );
+                }
 
+                return $image->respond();
+            }
         } catch (DirectoryNotFoundException | \InvalidArgumentException $e) {
             abort(404);
         }
     }
 
-    public function get($image)
+    public function get(string $image)
     {
         $files = collect($this->files);
         $file = $files->first(function ($file) use ($image) {
@@ -129,7 +174,7 @@ class Generator
                 return true;
             }
         });
-        $this->file = $file;// dd($this->file->getPathname());
+        $this->file = $file; // dd($this->file->getPathname());
         return $this->render();
     }
 }
