@@ -5,7 +5,7 @@ import DefaultTheme from 'vitepress/theme'
 import CImage from '../components/CImg.vue'
 import './style.css'
 
-export const categories = ['avatar', 'album', 'event', 'poster']
+export const categories = ['avatar', 'album', 'event', 'poster', 'technology']
 export const baseURL = import.meta.env.DEV
     ? import.meta.env.VITE_BASEURL_DEV
     : import.meta.env.VITE_BASEURL

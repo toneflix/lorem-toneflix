@@ -32,6 +32,8 @@ class Generator
 
     public function build(string $dir = null)
     {
+        $request = request();
+
         if (empty($this->files)) {
             $dir = trim($dir ?? 'files/images', '/');
             $files = File::files(public_path($dir));
@@ -78,7 +80,7 @@ class Generator
         return self::generate($dir, false);
     }
 
-    public function render(?string $format)
+    public function render(?string $format = null)
     {
         $request = request();
         try {
@@ -174,7 +176,7 @@ class Generator
                 return true;
             }
         });
-        $this->file = $file; // dd($this->file->getPathname());
+        $this->file = $file;
         return $this->render();
     }
 }

@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     title: "Lorem Toneflix",
+    assetsDir: 'doc-assets',
     description: "Open Source Image Placeholder Service",
     head: [
         ['link', { rel: 'icon', type: 'image/x-icon', href: 'https://lorem.toneflix.com.ng/logo-sm.png' }]
@@ -25,6 +26,8 @@ export default defineConfig({
                 text: 'Examples',
                 items: [
                     { text: 'Usage Examples', link: '/examples' },
+                    { text: 'Specific Image', link: '/specific' },
+                    { text: 'Seeding', link: '/seeding' },
                 ]
             }
         ],
