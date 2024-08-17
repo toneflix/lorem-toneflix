@@ -70,6 +70,8 @@ Allows you to add gausian blur to your image, accepts an optional `amount` param
 
 ```
 
+**_Note: The blur filter puts a lot of strain on the server, this is evident on the amount of time it takes to process as the `amount` is increased, be respectfull to others using the services and set only a resonable value for the `amount`. We may block origins and IPs that repeatedly overuse our resources._**
+
 ### Invert
 
 Allows you invert all colors of the image.
