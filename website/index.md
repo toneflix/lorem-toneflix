@@ -14,6 +14,9 @@ hero:
         - theme: brand
           text: Usage Examples
           link: /examples
+        - theme: alt
+          text: Fakerphp
+          link: /fakerphp
 
 features:
     - title: Resizeable [?w={width}&h={height}]
