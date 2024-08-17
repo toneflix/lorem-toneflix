@@ -40,7 +40,7 @@ Sometimes, you may have the same URL in multiple places. The default behavior is
 
 ## Final Notes
 
-Seeds dont have to be anything specific, just adding to arbitary query parameters will seed the randomization engine and ensure you get random values each time.
+Seeds dont have to be anything specific, just adding arbitary query parameters to the link will seed the randomization engine and ensure you get random values each time.
 
 <script setup>
     import { baseURL, categories } from "./.vitepress/theme/index"
