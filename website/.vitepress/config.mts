@@ -6,7 +6,18 @@ export default defineConfig({
     assetsDir: 'doc-assets',
     description: "Open Source Image Placeholder Service",
     head: [
-        ['link', { rel: 'icon', type: 'image/x-icon', href: 'https://lorem.toneflix.com.ng/logo-sm.png' }]
+        ['link', { rel: 'icon', type: 'image/x-icon', href: 'https://lorem.toneflix.com.ng/logo-sm.png' }],
+        ['script', { async: 'true', src: 'https://www.googletagmanager.com/gtag/js?id=G-FHM3VBSHSV' }],
+        ['script', {}, `
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-FHM3VBSHSV');
+        `],
     ],
 
     themeConfig: {
