@@ -13,3 +13,4 @@ Simple Image Placeholder service that does what it says... Provide placeholder i
 | people     | 40001 - 50000 |
 | poster     | 50001 - 60000 |
 | technology | 60001 - 70000 |
+| house      | 70001 - 80000 |
